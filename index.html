@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Настройка шифрования Wi-Fi через консоль администрирования</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        
+        h3 {
+            color: var(--dark-color);
+            margin: 1.5rem 0 0.5rem;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .step-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .protocols {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .tip {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .visual-guide {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .interface-example {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .interface-img {
+            width: 100%;
+            height: 200px;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            color: #6c757d;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Настройка шифрования беспроводной сети через консоль администрирования</h1>
+            <p>Практическое руководство по обеспечению безопасности Wi-Fi соединения</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section class="intro">
+            <h2>Введение</h2>
+            <p>После успешного входа в административную панель роутера и защиты доступа к настройкам путём смены пароля администратора, следующим важным шагом становится настройка шифрования беспроводной сети для исключения несанкционированного подключения к Wi-Fi.</p>
+            <p>В этом руководстве представлена пошаговая инструкция по настройке параметров безопасности беспроводной сети через веб-интерфейс маршрутизатора.</p>
+        </section>
+        
+        <section class="protocols">
+            <h2>Современные стандарты шифрования Wi-Fi</h2>
+            <p>Перед началом настройки важно понимать различия между доступными протоколами безопасности:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Протокол</th>
+                        <th>Год внедрения</th>
+                        <th>Безопасность</th>
+                        <th>Рекомендация</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WEP</td>
+                        <td>1999</td>
+                        <td>Низкая</td>
+                        <td>Не использовать</td>
+                    </tr>
+                    <tr>
+                        <td>WPA</td>
+                        <td>2003</td>
+                        <td>Средняя</td>
+                        <td>Только для совместимости</td>
+                    </tr>
+                    <tr>
+                        <td>WPA2</td>
+                        <td>2004</td>
+                        <td>Высокая</td>
+                        <td>Рекомендуется при отсутствии WPA3</td>
+                    </tr>
+                    <tr>
+                        <td>WPA3</td>
+                        <td>2018</td>
+                        <td>Очень высокая</td>
+                        <td>Настоятельно рекомендуется</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="tip">
+                <p><strong>Совет:</strong> Рекомендуется отдать предпочтение WPA3, если все подключаемые устройства поддерживают данный стандарт, так как он обеспечивает улучшенную защиту от атак, включая защиту от перебора паролей.</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Пошаговая инструкция по настройке</h2>
+            
+            <div class="steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Вход в панель управления</h3>
+                    <p>Откройте браузер и введите IP-адрес маршрутизатора в адресную строку. Обычно это 192.168.0.1, 192.168.1.1 или 192.168.10.1.</p>
+                    <p>Войдите в систему, используя имя пользователя и пароль администратора.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Переход в раздел Wi-Fi</h3>
+                    <p>Найдите раздел, отвечающий за беспроводные настройки. Он может называться "Wireless", "Wi-Fi Settings", "Беспроводная сеть" или аналогично.</p>
+                    <p>Выберите подраздел "Безопасность" или "Security".</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Выбор протокола шифрования</h3>
+                    <p>В настройках безопасности выберите тип шифрования:</p>
+                    <ul>
+                        <li>WPA3-Personal (рекомендуется)</li>
+                        <li>WPA2-Personal + AES</li>
+                        <li>WPA2/WPA3 Mixed (для совместимости)</li>
+                    </ul>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h3>Настройка имени сети (SSID)</h3>
+                    <p>Задайте уникальное имя для вашей беспроводной сети. Не используйте стандартные имена, заданные производителем.</p>
+                    <p>Избегайте использования личной информации в имени сети.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h3>Установка пароля</h3>
+                    <p>Создайте надежный пароль (Pre-Shared Key):</p>
+                    <ul>
+                        <li>Минимум 12 символов</li>
+                        <li>Заглавные и строчные буквы</li>
+                        <li>Цифры и специальные символы</li>
+                    </ul>
+                    <p>Не используйте пароль, совпадающий с паролем администратора роутера.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h3>Дополнительные настройки</h3>
+                    <p>Отключите функцию WPS (Wi-Fi Protected Setup), так как она может снижать уровень безопасности.</p>
+                    <p>При необходимости настройте фильтрацию по MAC-адресам для дополнительной защиты.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">7</div>
+                    <h3>Сохранение настроек</h3>
+                    <p>Нажмите кнопку "Сохранить", "Применить" или аналогичную для сохранения изменений.</p>
+                    <p>В некоторых случаях маршрутизатор может перезагрузиться для применения новых параметров.</p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">8</div>
+                    <h3>Проверка подключения</h3>
+                    <p>Подключитесь к Wi-Fi сети с другого устройства, используя новый пароль.</p>
+                    <p>Убедитесь, что доступ в Интернет работает корректно.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section class="visual-guide">
+            <h2>Примеры интерфейсов настройки</h2>
+            
+            <div class="interface-example">
+                <div class="interface-img">Изображение интерфейса TP-Link</div>
+                <h3>TP-Link</h3>
+                <p>Раздел: Беспроводной режим → Защита беспроводного режима</p>
+                <p>Рекомендуемые настройки: WPA2/WPA3-Personal, AES</p>
+            </div>
+            
+            <div class="interface-example">
+                <div class="interface-img">Изображение интерфейса ASUS</div>
+                <h3>ASUS</h3>
+                <p>Раздел: Беспроводная сеть → Общие</p>
+                <p>Рекомендуемые настройки: WPA3-Personal</p>
+            </div>
+            
+            <div class="interface-example">
+                <div class="interface-img">Изображение интерфейса D-Link</div>
+                <h3>D-Link</h3>
+                <p>Раздел: Wi-Fi → Настройки безопасности</p>
+                <p>Рекомендуемые настройки: WPA3-Personal</p>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Рекомендации по безопасности</h2>
+            
+            <div class="warning">
+                <p><strong>Важно!</strong> Никогда не оставляйте стандартные пароли администратора на маршрутизаторе. Это одна из самых распространенных уязвимостей домашних сетей.</p>
+            </div>
+            
+            <div class="tip">
+                <p><strong>Совет:</strong> Регулярно обновляйте прошивку маршрутизатора. Производители выпускают обновления для устранения обнаруженных уязвимостей.</p>
+            </div>
+            
+            <h3>Дополнительные меры защиты</h3>
+            <ul>
+                <li>Используйте гостевую сеть для посетителей</li>
+                <li>Включите брандмауэр маршрутизатора</li>
+                <li>Отключите удаленный доступ к админ-панели</li>
+                <li>Регулярно проверяйте список подключенных устройств</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>Проверка настроек безопасности</h2>
+            <p>После настройки рекомендуется проверить безопасность вашей Wi-Fi сети:</p>
+            <ol>
+                <li>Используйте мобильное приложение для анализа Wi-Fi сетей</li>
+                <li>Проверьте, отображается ли ваша сеть как защищенная</li>
+                <li>Убедитесь, что для подключения требуется ввод пароля</li>
+                <li>Проверьте, что WPS отключен</li>
+            </ol>
+            
+            <p>Для более глубокого анализа можно использовать специализированные инструменты, такие как Wireshark или Aircrack-ng.</p>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Материал подготовлен в рамках курсового проекта по теме: "Настройка защищённого сетевого соединения к сети интернет"</p>
+            <p>Специальность 10.02.05 «Обеспечение информационной безопасности автоматизированных систем»</p>
+            <p>ЧПОУ «Сургутский колледж предпринимательства», 2025 г.</p>
+        </div>
+    </footer>
+</body>
+</html>
